@@ -7,15 +7,16 @@ services:
     entrypoint: /bin/bash
     command: -c "sleep 5 && go-wrapper run" # sleep because the postgres container isn't ready on first start
     environment:
-      - "constraint:node!=*master"
+      - "constraint:node!=*-master"
       - "constraint:provider==${PROVIDER}"
       - "TITLE=${TITLE}"
       - "DB_USER=${DB_USER}"
       - "DB_PASS=${DB_PASS}"
       - "DB_NAME=${DB_NAME}"
       - "DB_SSL_MODE=disable"
-    links:
-      - db:db
+      - "DB_PORT_5432_TCP_ADDR=db"
+      - "DB_PORT_5432_TCP_PORT=5432"
+      - "INTERLOCK_DATA={\"hostname\":\"docker-${ENVIRONMENT}\",\"domain\":\"${DOMAIN_NAME}\"}"
     networks:
       - docker-demo
     ports:
