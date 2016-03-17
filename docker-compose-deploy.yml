@@ -1,0 +1,48 @@
+version: "2"
+
+services:
+  app:
+    image: ${DTR_URL}/demo/docker-demo:${TAG}
+    restart: always
+    entrypoint: /bin/bash
+    command: -c "sleep 5 && go-wrapper run" # sleep because the postgres container isn't ready on first start
+    environment:
+      - "constraint:node!=*-master"
+      - "constraint:provider==${PROVIDER}"
+      - "TITLE=Docker Demo-${ENVIRONMENT}"
+      - "DB_USER=${DB_USER}"
+      - "DB_PASS=${DB_PASS}"
+      - "DB_NAME=${DB_NAME}"
+      - "DB_SSL_MODE=disable"
+      - "DB_PORT_5432_TCP_ADDR=db"
+      - "DB_PORT_5432_TCP_PORT=5432"
+      - "INTERLOCK_DATA={\"hostname\":\"docker-${ENVIRONMENT}\",\"domain\":\"${DOMAIN_NAME}\"}"
+    networks:
+      - docker-demo
+    ports:
+      - "8080"
+    expose:
+      - "8080"
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - "constraint:node==*master"
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASS}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - docker-demo
+    expose:
+      - "5432"
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  docker-demo:
+    driver: overlay
