@@ -17,7 +17,7 @@ services:
     links:
       - db:db
     networks:
-      - ${COMPOSE_PROJECT}
+      - docker-demo
     ports:
       - "8080"
     expose:
@@ -26,13 +26,13 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      - "constraint:node=*master"
+      - "constraint:node==*master"
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASS}"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - ${COMPOSE_PROJECT}
+      - docker-demo
     expose:
       - "5432"
     ports:
@@ -43,5 +43,5 @@ volumes:
     driver: local
 
 networks:
-  ${COMPOSE_PROJECT}:
+  docker-demo:
     driver: overlay
