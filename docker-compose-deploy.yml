@@ -16,8 +16,6 @@ services:
       - "DB_NAME=${DB_NAME}"
       - "DB_SSL_MODE=disable"
       - "INTERLOCK_DATA={\"hostname\":\"docker-${ENVIRONMENT}\",\"domain\":\"${DOMAIN_NAME}\"}"
-    depends_on:
-      - db
     networks:
       - docker-demo
     ports:
