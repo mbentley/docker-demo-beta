@@ -9,13 +9,15 @@ services:
     environment:
       - "constraint:provider==${PROVIDER}"
       - "TITLE=Docker Demo-${ENVIRONMENT}"
+      - "DB_HOST=db"
+      - "DB_PORT=5432"
       - "DB_USER=${DB_USER}"
       - "DB_PASS=${DB_PASS}"
       - "DB_NAME=${DB_NAME}"
       - "DB_SSL_MODE=disable"
-      - "DB_PORT_5432_TCP_ADDR=db"
-      - "DB_PORT_5432_TCP_PORT=5432"
       - "INTERLOCK_DATA={\"hostname\":\"docker-${ENVIRONMENT}\",\"domain\":\"${DOMAIN_NAME}\"}"
+    depends_on:
+      - db
     networks:
       - docker-demo
     ports:
