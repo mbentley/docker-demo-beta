@@ -24,6 +24,8 @@ services:
       - "8080"
     labels:
       - "com.docker.ucp.access.label=${COMPOSE_PROJECT}"
+      - "interlock.hostname=docker-${ENVIRONMENT}"
+      - "interlock.domain=${DOMAIN_NAME}"
   db:
     image: postgres:latest
     restart: always
