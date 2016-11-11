@@ -22,7 +22,7 @@ services:
     expose:
       - "8080"
   db:
-    image: postgres:latest
+    image: ${DTR_URL}/official/postgres:latest
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASS}"

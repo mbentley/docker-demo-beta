@@ -21,7 +21,7 @@ services:
       - ./static:/go/src/app/static
       - ./templates:/go/src/app/templates
   db:
-    image: postgres:latest
+    image: dtr-beta.demo.dckr.org/official/postgres:latest
     environment:
       - "POSTGRES_USER=demo"
       - "POSTGRES_PASSWORD=demo"
